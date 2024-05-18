@@ -16,11 +16,11 @@
           - libpq-dev
           - python3-psycopg2
     
-    - name: Uploading .pgpass
+    - name: Uploading pgpass
       become_user: postgres
       copy:
-        src: .pgpass
-        dest: /var/lib/postgresql/.pgpass
+        src: pgpass
+        dest: /var/lib/postgresql/pgpass
         mode: 0600
       # USER  
     - name: Create PostgreSQL user with replication

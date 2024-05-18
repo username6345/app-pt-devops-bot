@@ -1,9 +1,5 @@
- 
-
 TOKEN:  7037353199:AAGr4Jmb9uTyF6ZjBXKThHrd1D-LTZf3J-0
- 
-PATH_TO_LOGFILE: Telegram_Bot_Logfile.txt
-PATH_TO_TEMPFILE: TempList.txt
+
 RM_HOST: 192.168.253.169
 RM_PORT: 22 
 RM_USER: ubuntu #- будет содержать пользователя удаленного хоста
