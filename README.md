@@ -5,13 +5,19 @@
 
 база данных psql с репликацией
 
+
+DOCKER
+
 docker build -t bot-image ./bot
 
 docker build -t db-image ./db
 
 docker build -t db_repl-image ./db_repl
 
-Заметка Перед сборкой или скачиваем :
+ docker-compose up -d 
+
+
+Заметка ANSILBL Перед сборкой или скачиваем :
 
 1. Сборка происходила на 2 машинах обе убунты 
     1. на 1 убунте был сам ansible  и  основная база данных и бот
