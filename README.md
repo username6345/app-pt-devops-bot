@@ -5,11 +5,11 @@
 
 база данных psql с репликацией
 
-docker build -t bot ./bot 
+docker build -t bot-image ./bot
 
-docker build -t db ./db
+docker build -t db-image ./db
 
-docker build -t db_repl ./db_repl
+docker build -t db_repl-image ./db_repl
 
 Заметка Перед сборкой или скачиваем :
 
