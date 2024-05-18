@@ -1,4 +1,0 @@
-docker build -t bot ./bot 
-docker build -t db ./db
-docker build -t db_repl ./db_repl
-docker system prune
