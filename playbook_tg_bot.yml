@@ -1,12 +1,10 @@
-- name: Installing PostgreSQL
+- name: Installing PostgreSQL and setting password for postgres user
   hosts: databases
   become: yes
   gather_facts: yes
   vars:
     POSTGRES_VERSION: 14
     DB_PORT: 5432
-  #vars_files: 
-  #  - vars.yml
   tasks:
     - name: Installing PostgreSQL
       apt:
@@ -16,13 +14,12 @@
           - libpq-dev
           - python3-psycopg2
     
-    - name: Uploading pgpass
-      become_user: postgres
-      copy:
-        src: pgpass
-        dest: /var/lib/postgresql/pgpass
-        mode: 0600
-      # USER  
+    - name: create new user
+      command: psql -c "ALTER ROLE postgres PASSWORD 'postgres';"
+      become: true
+      become_user: postgres    
+
+
     - name: Create PostgreSQL user with replication
       become: yes
       become_user: postgres
@@ -31,6 +28,8 @@
         password: repl_user
         role_attr_flags: REPLICATION
         state: present
+
+    # Другие задачи остаются без изменений
 
     - name: Create database
       become: yes
@@ -75,7 +74,8 @@
     - name: Restarting PostgreSQL
       service:
         name: postgresql
-        state: restarted  
+        state: restarted
+ 
 #-----bd repl----------------------------------------------------------
 - name: Slave Init
   hosts: databases2
@@ -93,7 +93,6 @@
         address: 192.168.0.0/16
         create: true
       become_user: postgres
-      become: yes
     - name: Set Database Configuration
       blockinfile:
         path: /etc/postgresql/14/main/postgresql.conf
@@ -125,27 +124,13 @@
      
 #-----BOT--------------------------------------------------------------- 
 
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
 - name: Improved setup for bot deployment
   hosts: tg_bot
   become: yes
-  #gather_facts: yes
+  gather_facts: yes
 
   tasks:
     - name: Creating directory for bot
@@ -155,12 +140,12 @@
 
     - name: Cloning repository and setting up bot files
       block:
-       # - name: "Git clone"
-       #   git:
-        #    repo: https://github.com/username6345/pt2.git
-         #   dest: /home/tg_bot
-          #  force: yes  # Добавлен параметр force для перезаписи локальных изменений
-          #register: clone_result
+        - name: "Git clone"
+          git:
+            repo: https://github.com/username6345/pt2.git
+            dest: /home/tg_bot
+            force: yes  # Добавлен параметр force для перезаписи локальных изменений
+          register: clone_result
 
         - name: "Installing Python and dependencies"
           apt:
